@@ -1,0 +1,517 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>traço. — Tatuagens Fine Line</title>
+<meta name="description" content="traço. — tatuagens fine line minimalistas. Agende sua sessão pelo WhatsApp.">
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='14' fill='%23111111'/%3E%3Cpath d='M14 40 C 22 18, 30 18, 32 32 S 42 46, 50 24' stroke='%23ffffff' stroke-width='3' fill='none' stroke-linecap='round'/%3E%3Ccircle cx='50' cy='24' r='2.6' fill='%23ffffff'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --black:#111111;
+    --ink:#1B1B1B;
+    --white:#FFFFFF;
+    --off:#FAFAF8;
+    --gray:#8A8A85;
+    --gray-line:#E4E2DD;
+
+    --font-display:'Cormorant Garamond', serif;
+    --font-body:'Inter', sans-serif;
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    font-family:var(--font-body);
+    font-weight:300;
+    color:var(--ink);
+    background:var(--white);
+    line-height:1.6;
+    -webkit-font-smoothing:antialiased;
+  }
+  img{display:block;max-width:100%;}
+  a{color:inherit;text-decoration:none;}
+  ul{list-style:none;}
+  section{padding:120px 0;}
+  .wrap{max-width:1080px;margin:0 auto;padding:0 28px;}
+  :focus-visible{outline:1px solid var(--black);outline-offset:4px;}
+
+  .eyebrow{
+    font-family:var(--font-body);
+    font-size:0.7rem;
+    font-weight:500;
+    letter-spacing:0.28em;
+    text-transform:uppercase;
+    color:var(--gray);
+    display:block;
+    margin-bottom:16px;
+  }
+  h2{
+    font-family:var(--font-display);
+    font-weight:500;
+    font-size:clamp(1.9rem,3.4vw,2.7rem);
+    color:var(--black);
+  }
+  .hairline{
+    width:44px;height:1px;
+    background:var(--black);
+    margin:0 auto;
+  }
+
+  .reveal{opacity:0;transform:translateY(20px);transition:opacity .8s ease,transform .8s ease;}
+  .reveal.in-view{opacity:1;transform:translateY(0);}
+
+  /* line-art divider (signature motif) */
+  .line-divider{display:flex;justify-content:center;padding:8px 0 0;}
+  .line-divider svg{opacity:0.75;}
+
+  /* Buttons */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:8px;
+    font-family:var(--font-body);
+    font-weight:500;
+    font-size:0.85rem;
+    letter-spacing:0.06em;
+    padding:15px 30px;
+    border-radius:999px;
+    border:1px solid var(--black);
+    cursor:pointer;
+    transition:transform .2s ease, background .2s ease, color .2s ease;
+    white-space:nowrap;
+  }
+  .btn-primary{background:var(--black);color:var(--white);}
+  .btn-primary:hover{transform:translateY(-2px);background:#000;}
+  .btn-outline{background:transparent;color:var(--black);}
+  .btn-outline:hover{background:var(--black);color:var(--white);transform:translateY(-2px);}
+  .btn-sm{padding:10px 20px;font-size:0.76rem;}
+  .btn-lg{padding:19px 42px;font-size:0.9rem;}
+
+  /* ---------- NAVBAR ---------- */
+  .navbar{
+    position:fixed;top:0;left:0;right:0;z-index:100;
+    background:rgba(255,255,255,0.92);
+    backdrop-filter:blur(8px);
+    border-bottom:1px solid var(--gray-line);
+  }
+  .navbar .wrap{display:flex;align-items:center;justify-content:space-between;height:82px;}
+  .logo{
+    font-family:var(--font-display);
+    font-size:1.5rem;
+    font-weight:600;
+    color:var(--black);
+    letter-spacing:0.02em;
+  }
+  .nav-links{display:flex;align-items:center;gap:38px;}
+  .nav-links a:not(.btn){
+    font-size:0.82rem;
+    font-weight:400;
+    letter-spacing:0.04em;
+    color:var(--ink);
+    transition:opacity .2s ease;
+    opacity:0.75;
+  }
+  .nav-links a:not(.btn):hover{opacity:1;}
+  .nav-toggle{display:none;background:none;border:none;font-size:1.4rem;cursor:pointer;color:var(--black);}
+  @media (max-width:820px){
+    .nav-links{
+      position:absolute;top:82px;left:0;right:0;background:var(--white);
+      flex-direction:column;align-items:stretch;padding:20px 28px 28px;gap:18px;
+      border-bottom:1px solid var(--gray-line);
+      display:none;
+    }
+    .nav-links.open{display:flex;}
+    .nav-toggle{display:block;}
+  }
+
+  /* ---------- HERO ---------- */
+  .hero{
+    min-height:100vh;
+    display:flex;flex-direction:column;align-items:center;justify-content:center;
+    text-align:center;
+    padding:150px 24px 90px;
+    background:var(--off);
+    position:relative;
+  }
+  .hero-line{margin-bottom:26px;}
+  .hero h1{
+    font-family:var(--font-display);
+    font-weight:500;
+    font-size:clamp(2.6rem,7vw,5rem);
+    line-height:1.05;
+    color:var(--black);
+  }
+  .hero h1 em{font-style:italic;font-weight:400;}
+  .hero p.lead{
+    font-family:var(--font-body);
+    font-weight:300;
+    font-size:1.05rem;
+    color:var(--gray);
+    max-width:420px;
+    margin:22px auto 40px;
+    letter-spacing:0.01em;
+  }
+  .hero-ctas{display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+  .hero-photo{
+    margin-top:70px;
+    width:min(620px,86vw);
+    aspect-ratio:4/3;
+    border-radius:2px;
+    position:relative;
+    overflow:hidden;
+  }
+  .hero-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+
+  /* ---------- SOBRE ---------- */
+  .sobre .wrap{
+    display:grid;grid-template-columns:0.85fr 1fr;gap:64px;align-items:center;
+  }
+  .sobre-photo{
+    aspect-ratio:3/4;
+    overflow:hidden;
+    border-radius:2px;
+  }
+  .sobre-photo img{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+  }
+  .sobre-text p{
+    font-size:1.02rem;
+    color:#4A4A47;
+    max-width:440px;
+    margin-top:18px;
+    line-height:1.85;
+  }
+  @media (max-width:820px){.sobre .wrap{grid-template-columns:1fr;}}
+
+  /* ---------- ESTILOS ---------- */
+  .estilos{background:var(--off);text-align:center;}
+  .section-head{max-width:520px;margin:0 auto 60px;}
+  .estilos-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:1px;
+    background:var(--gray-line);
+    border:1px solid var(--gray-line);
+  }
+  .estilo-card{
+    background:var(--off);
+    padding:44px 24px;
+    text-align:center;
+  }
+  .estilo-card .mark{font-family:var(--font-display);font-style:italic;font-size:1.6rem;margin-bottom:14px;}
+  .estilo-card h3{
+    font-family:var(--font-body);font-weight:500;font-size:0.92rem;
+    letter-spacing:0.03em;color:var(--black);margin-bottom:8px;
+  }
+  .estilo-card p{font-size:0.82rem;color:var(--gray);line-height:1.6;}
+  @media (max-width:760px){.estilos-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:480px){.estilos-grid{grid-template-columns:1fr;}}
+
+  /* ---------- PORTFÓLIO ---------- */
+  .portfolio-grid{
+    display:grid;
+    grid-template-columns:repeat(3,1fr);
+    gap:8px;
+  }
+  .portfolio-item{
+    aspect-ratio:1/1;
+    overflow:hidden;
+    position:relative;
+    background:#f4f4f2;
+  }
+  .portfolio-item .fill{
+    width:100%;
+    height:100%;
+    object-fit:cover;
+    transition:transform .5s ease;
+  }
+  .portfolio-item:hover .fill{transform:scale(1.06);}
+  .portfolio-item .tag{
+    position:absolute;bottom:12px;left:12px;
+    font-size:0.66rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:#fff;background:rgba(17,17,17,0.65);
+    padding:5px 11px;border-radius:2px;
+    z-index:2;
+  }
+  @media (max-width:700px){.portfolio-grid{grid-template-columns:repeat(2,1fr);}}
+
+  /* ---------- PROCESSO ---------- */
+  .processo{background:var(--off);}
+  .processo-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:44px;
+    text-align:center;margin-top:56px;
+  }
+  .processo-step .num{
+    font-family:var(--font-display);font-style:italic;font-size:2.2rem;color:var(--gray);
+    margin-bottom:12px;
+  }
+  .processo-step h3{font-size:0.95rem;font-weight:500;margin-bottom:8px;color:var(--black);}
+  .processo-step p{font-size:0.85rem;color:var(--gray);line-height:1.6;max-width:230px;margin:0 auto;}
+  @media (max-width:760px){.processo-grid{grid-template-columns:1fr;gap:36px;}}
+
+  /* ---------- DEPOIMENTOS ---------- */
+  .depoimentos-grid{
+    display:grid;grid-template-columns:repeat(3,1fr);gap:40px;
+  }
+  .depoimento p.quote{
+    font-family:var(--font-display);font-style:italic;font-size:1.15rem;
+    color:var(--ink);line-height:1.6;margin-bottom:16px;
+  }
+  .depoimento .author{font-size:0.78rem;letter-spacing:0.04em;color:var(--gray);}
+  @media (max-width:820px){.depoimentos-grid{grid-template-columns:1fr;gap:36px;}}
+
+  /* ---------- CONTATO ---------- */
+  .contato{background:var(--off);}
+  .contato .wrap{
+    display:grid;grid-template-columns:1fr 1fr;gap:60px;align-items:start;
+  }
+  .info-list li{
+    display:flex;gap:16px;margin-bottom:24px;
+  }
+  .info-list li strong{
+    display:block;font-size:0.7rem;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--gray);font-weight:500;margin-bottom:4px;
+  }
+  .info-list li div p{font-size:0.98rem;color:var(--ink);}
+  .map-frame{aspect-ratio:4/3;overflow:hidden;border:1px solid var(--gray-line);}
+  .map-frame iframe{width:100%;height:100%;border:0;filter:grayscale(0.4) contrast(1.05);}
+  @media (max-width:820px){.contato .wrap{grid-template-columns:1fr;}}
+
+  /* ---------- CTA FINAL ---------- */
+  .cta-final{
+    text-align:center;
+    background:var(--black);
+    color:var(--white);
+    padding:130px 24px;
+  }
+  .cta-final .hairline{background:var(--white);opacity:0.5;margin-bottom:26px;}
+  .cta-final h2{
+    font-family:var(--font-display);font-weight:500;color:var(--white);
+    font-size:clamp(2rem,4vw,3rem);margin-bottom:36px;
+  }
+  .cta-final .btn-primary{background:var(--white);color:var(--black);border-color:var(--white);}
+  .cta-final .btn-primary:hover{background:#eee;}
+
+  /* ---------- FOOTER ---------- */
+  footer{background:var(--white);padding:50px 0 28px;text-align:center;}
+  footer .footer-links{
+    display:flex;justify-content:center;gap:26px;margin:8px 0 24px;flex-wrap:wrap;
+  }
+  footer .footer-links a{font-size:0.8rem;color:var(--ink);opacity:0.7;}
+  footer .footer-links a:hover{opacity:1;}
+  footer .copy{font-size:0.72rem;color:var(--gray);}
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header class="navbar">
+  <div class="wrap">
+    <a href="#top" class="logo">traço.</a>
+    <nav class="nav-links" id="navLinks">
+      <a href="#portfolio">Portfólio</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#estilos">Estilos</a>
+      <a href="#contato">Contato</a>
+      <a href="https://wa.me/5511999999999" class="btn btn-primary btn-sm" target="_blank" rel="noopener">Agendar</a>
+    </nav>
+    <button class="nav-toggle" id="navToggle" aria-label="Abrir menu">☰</button>
+  </div>
+</header>
+
+<!-- HERO -->
+<section class="hero" id="top">
+  <svg class="hero-line" width="120" height="40" viewBox="0 0 120 40" aria-hidden="true">
+    <path d="M4 30 C 24 6, 40 6, 48 22 S 66 38, 84 14 S 100 4, 116 20" stroke="#111" stroke-width="1" fill="none" stroke-linecap="round"/>
+  </svg>
+  <span class="eyebrow">Tatuagens fine line · sob agendamento</span>
+  <h1>Traços finos,<br><em>histórias eternas.</em></h1>
+  <p class="lead">Tatuagens minimalistas em fine line, feitas sob medida — um traço só, muito significado.</p>
+  <div class="hero-ctas">
+    <a href="#portfolio" class="btn btn-outline">Ver Portfólio</a>
+    <a href="https://wa.me/5511999999999" class="btn btn-primary" target="_blank" rel="noopener">Agendar pelo WhatsApp</a>
+  </div>
+  <div class="hero-photo">
+    <img src="https://images.unsplash.com/photo-1565058379802-bbe93b2f703a?auto=format&fit=crop&w=1200&q=85" alt="Tatuagem Fine Line delicada no braço" loading="lazy">
+  </div>
+</section>
+
+<!-- SOBRE -->
+<section class="sobre reveal" id="sobre">
+  <div class="wrap">
+    <div class="sobre-photo">
+      <img src="https://blog.tattoo2me.com/wp-content/uploads/2020/12/mariafernandeztattoo_129765879_215321386633982_8521438168234576327_n-819x1024.jpg" alt="Tatuadora criando um decalque de fine line" loading="lazy">
+    </div>
+    <div class="sobre-text">
+      <span class="eyebrow">Sobre</span>
+      <h2>Cada traço<br>conta uma história.</h2>
+      <p>Trabalho com tatuagens em fine line há alguns anos, unindo delicadeza técnica e significado pessoal em cada desenho. Cada peça é pensada com você, do esboço à sessão — simples, autoral e feita pra durar.</p>
+    </div>
+  </div>
+</section>
+
+<div class="line-divider" aria-hidden="true">
+  <svg width="200" height="20" viewBox="0 0 200 20">
+    <path d="M0 10 C 30 -2, 50 22, 80 10 S 130 -2, 160 10 S 190 18, 200 10" stroke="#111" stroke-width="1" fill="none"/>
+  </svg>
+</div>
+
+<!-- ESTILOS -->
+<section class="estilos reveal" id="estilos">
+  <div class="wrap">
+    <div class="section-head">
+      <span class="eyebrow">Especialidades</span>
+      <h2>Estilos de trabalho</h2>
+    </div>
+    <div class="estilos-grid">
+      <div class="estilo-card"><div class="mark">⟡</div><h3>Fine Line</h3><p>Linhas finas e precisas, delicadas ao extremo.</p></div>
+      <div class="estilo-card"><div class="mark">✧</div><h3>Minimalista</h3><p>Formas simples, muito significado.</p></div>
+      <div class="estilo-card"><div class="mark">֍</div><h3>Botânica</h3><p>Flores e folhas em traço contínuo.</p></div>
+      <div class="estilo-card"><div class="mark">◇</div><h3>Geométrica</h3><p>Linhas retas, simetria e equilíbrio.</p></div>
+      <div class="estilo-card"><div class="mark">✎</div><h3>Lettering</h3><p>Frases e nomes em caligrafia fina.</p></div>
+      <div class="estilo-card"><div class="mark">⋯</div><h3>Pontilhismo</h3><p>Texturas construídas ponto a ponto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- PORTFÓLIO -->
+<section class="reveal" id="portfolio" style="padding-top:120px;padding-bottom:60px;">
+  <div class="wrap">
+    <div class="section-head" style="text-align:center;">
+      <span class="eyebrow">Trabalhos</span>
+      <h2>Portfólio</h2>
+    </div>
+  </div>
+  <div class="portfolio-grid">
+    <!-- Item 1: Fine Line -->
+    <div class="portfolio-item">
+      <img class="fill" src="https://i.pinimg.com/736x/9b/52/fe/9b52fe4fc338a3dbdc3374c5425b3917.jpg" alt="Tatuagem Fine Line" loading="lazy">
+      <span class="tag">Fine Line</span>
+    </div>
+    <!-- Item 2: Botânica -->
+    <div class="portfolio-item">
+      <img class="fill" src="https://i.pinimg.com/736x/06/f6/de/06f6de503e9561af3d230ee2ab4d9a13.jpg" alt="Tatuagem Botânica" loading="lazy">
+      <span class="tag">Botânica</span>
+    </div>
+    <!-- Item 3: Lettering -->
+    <div class="portfolio-item">
+      <img class="fill" src="https://m.10masters.com/images/lettering-tattoo.max-1000x1000.format-webp.webp" alt="Tatuagem Lettering" loading="lazy">
+      <span class="tag">Lettering</span>
+    </div>
+    <!-- Item 4: Geométrica -->
+    <div class="portfolio-item">
+      <img class="fill" src="https://auroratattooart.com.br/wp-content/uploads/2023/04/tattoo-geometrica.png" alt="Tatuagem Geométrica" loading="lazy">
+      <span class="tag">Geométrica</span>
+    </div>
+    <!-- Item 5: Minimalista -->
+    <div class="portfolio-item">
+        <img class="fill" src="https://i.pinimg.com/1200x/58/e9/b3/58e9b31aae2ea0c83416c3fd093e63c7.jpg" alt="Tatuagem Geométrica" loading="lazy">
+      <span class="tag">Minimalista</span>
+    </div>
+    <!-- Item 6: Pontilhismo -->
+    <div class="portfolio-item">
+      <img class="fill" src="https://i.pinimg.com/736x/7f/59/02/7f5902879dd351b87c7f43db17023a25.jpg" alt="Tatuagem Pontilhismo" loading="lazy">
+      <span class="tag">Pontilhismo</span>
+    </div>
+  </div>
+</section>
+
+<div class="line-divider" aria-hidden="true">
+  <svg width="200" height="20" viewBox="0 0 200 20">
+    <path d="M0 10 C 30 22, 50 -2, 80 10 S 130 22, 160 10 S 190 2, 200 10" stroke="#111" stroke-width="1" fill="none"/>
+  </svg>
+</div>
+
+<!-- PROCESSO -->
+<section class="processo reveal">
+  <div class="wrap">
+    <div class="section-head" style="text-align:center;">
+      <span class="eyebrow">Como funciona</span>
+      <h2>Do desenho à pele</h2>
+    </div>
+    <div class="processo-grid">
+      <div class="processo-step"><div class="num">01</div><h3>Consulta</h3><p>Conversamos sobre a ideia, tamanho e local do corpo.</p></div>
+      <div class="processo-step"><div class="num">02</div><h3>Desenho</h3><p>Crio o traço personalizado e ajustamos juntos.</p></div>
+      <div class="processo-step"><div class="num">03</div><h3>Sessão</h3><p>Dia da tatuagem, com todo cuidado e conforto.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- DEPOIMENTOS -->
+<section class="reveal">
+  <div class="wrap">
+    <div class="section-head" style="text-align:center;">
+      <span class="eyebrow">Quem já tatuou</span>
+      <h2>Depoimentos</h2>
+    </div>
+    <div class="depoimentos-grid">
+      <div class="depoimento"><p class="quote">"O traço ficou exatamente como eu imaginei. Cuidado do início ao fim."</p><p class="author">Bia M.</p></div>
+      <div class="depoimento"><p class="quote">"Ambiente tranquilo, trabalho impecável. Já virou minha segunda tattoo aqui."</p><p class="author">Rafael T.</p></div>
+      <div class="depoimento"><p class="quote">"Sensibilidade rara pra transformar uma ideia simples em algo lindo."</p><p class="author">Camila O.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTATO -->
+<section class="contato reveal" id="contato">
+  <div class="wrap">
+    <div>
+      <span class="eyebrow">Agende sua sessão</span>
+      <h2 style="margin-bottom:30px;">Contato</h2>
+      <ul class="info-list">
+        <li><div><strong>Endereço</strong><p>Rua Exemplo, 123 — Vila Madalena, São Paulo - SP</p></div></li>
+        <li><div><strong>Horário</strong><p>Terça a sábado — 10h às 19h (sob agendamento)</p></div></li>
+        <li><div><strong>WhatsApp</strong><p>(11) 99999-9999</p></div></li>
+        <li><div><strong>Instagram</strong><p>@traco.tattoo</p></div></li>
+      </ul>
+      <div class="hero-ctas" style="margin-top:8px;">
+        <a href="https://wa.me/5511999999999" class="btn btn-primary" target="_blank" rel="noopener">Agendar pelo WhatsApp</a>
+        <a href="https://instagram.com" class="btn btn-outline" target="_blank" rel="noopener">Ver Instagram</a>
+      </div>
+    </div>
+    <div class="map-frame">
+      <iframe src="https://www.google.com/maps?q=Vila+Madalena,+São+Paulo&output=embed" loading="lazy" title="Mapa de localização" referrerpolicy="no-referrer-when-downgrade"></iframe>
+    </div>
+  </div>
+</section>
+
+<!-- CTA FINAL -->
+<section class="cta-final reveal">
+  <div class="hairline"></div>
+  <h2>Vamos criar seu próximo traço.</h2>
+  <a href="https://wa.me/5511999999999" class="btn btn-primary btn-lg" target="_blank" rel="noopener">Agendar pelo WhatsApp</a>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <div class="wrap">
+    <div class="footer-links">
+      <a href="#top">Início</a>
+      <a href="#portfolio">Portfólio</a>
+      <a href="#sobre">Sobre</a>
+      <a href="#contato">Contato</a>
+      <a href="https://instagram.com" target="_blank" rel="noopener">Instagram</a>
+    </div>
+    <p class="copy">© 2026 traço. tattoo — todos os direitos reservados.</p>
+  </div>
+</footer>
+
+<script>
+  const navToggle = document.getElementById('navToggle');
+  const navLinks = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('open'));
+  navLinks.querySelectorAll('a').forEach(a => a.addEventListener('click', () => navLinks.classList.remove('open')));
+
+  const io = new IntersectionObserver((entries) => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('in-view'); io.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal').forEach(el => io.observe(el));
+</script>
+
+</body>
+</html>
